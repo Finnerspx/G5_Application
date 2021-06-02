@@ -1,5 +1,5 @@
 import React from 'react';
-import MainDashboard from './MainDashboard';
+import MainDashboard from './Pages/MainDashboard';
 
 
 function App() {
