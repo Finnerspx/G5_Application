@@ -1,14 +1,14 @@
 import React from 'react';
 import Carousel from "react-elastic-carousel"
+import DatasetNodeREDConnection from './DatasetNodeREDConnection';
+import ImageNodeREDConnection from '../ImageNodeREDConnection/ImageNodeREDConnection';
 
 var datasetNames = [];
 var jsonObject = [];
 
 
-const DatasetNodeRED = (props) => {
+const Dataset = (props) => {
 
-    const outgoingSocket = new WebSocket('ws://127.0.0.1:1880/ws/datasetDetails');
-    const incomingSocket = new WebSocket('ws://127.0.0.1:1880/ws/datasetDetailsResponse');
     const [datasetNamesArray, setDatasetNames] = React.useState({});
 
 
@@ -16,15 +16,15 @@ const DatasetNodeRED = (props) => {
      * Sending message to gather dataset details (name & thumbnail)
      */
 
-    incomingSocket.onopen = function (event) {
-        if (outgoingSocket.readyState === 1) {
-            outgoingSocket.send("datasetInformation");
+     DatasetNodeREDConnection.incomingSocket.onopen = function (event) {
+        if (DatasetNodeREDConnection.outgoingSocket.readyState === 1) {
+            DatasetNodeREDConnection.outgoingSocket.send("datasetInformation");
         }
 
     }
 
 
-    incomingSocket.onmessage = event => {
+    DatasetNodeREDConnection.incomingSocket.onmessage = event => {
         if (event.data == "finished") {
             setDatasetNames(datasetNames);
         } else {
@@ -34,6 +34,13 @@ const DatasetNodeRED = (props) => {
                 thumbnail: jsonObject.base64,
             });
         }
+    }
+
+    function handleDatasetImagesRequest(name){
+       if (ImageNodeREDConnection.outgoingSocket.readyState === 1) {
+           ImageNodeREDConnection.outgoingSocket.send(name);
+           console.log(name);
+       }
     }
 
 
@@ -50,7 +57,7 @@ const DatasetNodeRED = (props) => {
                                     {datasets.title}
                                 </div>
                                 <div className="ml-20">
-                                    {/* <Checkboxes name={datasets.title}/> */}
+                                    <button onClick={handleDatasetImagesRequest(datasets.title)}>+</button>
                                 </div>
                             </div>
                         </div>
@@ -63,4 +70,4 @@ const DatasetNodeRED = (props) => {
 
 
 
-export default DatasetNodeRED;
+export default Dataset;

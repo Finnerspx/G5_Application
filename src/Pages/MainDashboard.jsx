@@ -1,9 +1,9 @@
 import React from 'react';
 import Navbar from '../Components/Navigation/Navbar';
 import Sidebar from '../Components/SideBar/Sidebar';
-import DatasetNodeRED from '../Services/DatasetNodeREDConnection/DatasetNodeRED';
+import Dataset from '../Services/DatasetNodeREDConnection/Dataset';
 import Carousel from "react-elastic-carousel"
-import ImageNodeRED from '../Services/ImageNodeREDConnection/ImageNodeRED';
+import Images from '../Services/ImageNodeREDConnection/Images';
 
 class MainDashboard extends React.Component {
 
@@ -45,10 +45,10 @@ class MainDashboard extends React.Component {
                             <div className="px-10 py-10">
                                 <button type="button" onClick={this.onMessageRecieve}>Test</button>
                             </div>
-                            <DatasetNodeRED breakpoints={datasetBreakpoints} />
+                            <Dataset breakpoints={datasetBreakpoints} />
                         </div>
                         <div>
-                            <ImageNodeRED breakpoints={imageBreakPoints} />
+                            <Images breakpoints={imageBreakPoints} />
                         </div>
                     </div>
 

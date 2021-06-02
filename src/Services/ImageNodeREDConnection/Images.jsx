@@ -3,6 +3,7 @@ import Carousel from "react-elastic-carousel"
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import { MdFileDownload } from "react-icons/md";
+import ImageNodeREDConnection from './ImageNodeREDConnection';
 
 
 var imageNames = [];
@@ -14,12 +15,11 @@ var zipFile = new JSZip();
 
 function ImageNodeRED(props) {
 
-    const outgoingSocket = new WebSocket('ws://127.0.0.1:1880/ws/imageDetails');
-    const incomingSocket = new WebSocket('ws://127.0.0.1:1880/ws/imageDetailsResponse');
+   
 
     const [imageDetailsArray, setImageDetails] = React.useState({});
 
-    incomingSocket.onmessage = event => {
+    ImageNodeREDConnection.incomingSocket.onmessage = event => {
         if (event.data == "finished") {
             setImageDetails(imageNames);
         } else {
