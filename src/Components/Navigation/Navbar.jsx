@@ -4,6 +4,7 @@ import { FaUserAlt } from "react-icons/fa";
 import { MdHelpOutline } from "react-icons/md";
 import Logo from '../../Logo/Logo.png';
 import '../../Logo/logo.css';
+import {Link} from 'react-router-dom'
 
 function Navbar() {
 
@@ -13,12 +14,15 @@ function Navbar() {
           <nav className="relative flex flex-wrap items-center justify-between px-2 bg-black-dark h-20 mb-3">
             <div className="container px-3 mx-auto flex flex-wrap items-center justify-between">
               <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
+                <Link to="/">
                 <h1
                   className="text-4xl text-orange-bright font-bold inline-block mr-4 py-2 whitespace-nowrap uppercase"
                   
                 >
                   G5 - <a className="text-3xl text-sundance-gold font-semibold inline-block mr-1 py-2 whitespace-nowrap">Application</a>
                 </h1>
+                </Link>
+               
               </div>
               <div
                 className={
