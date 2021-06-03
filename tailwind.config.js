@@ -13,6 +13,7 @@ module.exports = {
         yello: colors.yellow,
         'black-dark': '#333333',
         'orange-bright': '#DD9425',
+        'sundance-gold': '#DD9933',
         'sundance-blue': '#2EA3F2',
         'custom-gray': '#C4C4C4',
         white: colors.white,

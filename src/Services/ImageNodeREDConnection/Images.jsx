@@ -95,10 +95,10 @@ const Images = (props) => {
     return (
       
         <div>
-            <button onClick={handleRefresh}><HiOutlineRefresh /></button>
+            <button className="lg:px-2 lg:py-2 rounded-xl shadow-custom-shadow hover:bg-sundance-blue" onClick={handleRefresh}><HiOutlineRefresh style={{color: "#DD9933"}} className="lg:h-7 lg:w-8"/></button>
             {   props.booleanValue
                 ? getCarousel()
-                : <h1>Nothing</h1>
+                : <h1 className="text-xl font-semibold text-sundance-gold lg:mt-16">Images Will Show Once Selected</h1>
             }
 
         </div>

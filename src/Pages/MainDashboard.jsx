@@ -66,11 +66,11 @@ const MainDashboard = () => {
                         <h3>Dataset</h3>
                         </div>
                     </div>
-                    <div className="">
+                    <div className="lg:mt-16">
                     <Dataset getData={getData}/>
                     </div>
                 </div>
-                <div className="item4 lg:mt-5 lg:mb-52 lg:mr-20">
+                <div className="item4  lg:mb-60 lg:mr-20">
                 <div className="lg:flex lg:flex-row lg:items-center lg:font-normal lg:text-2xl">
                         <IoMdImage className="lg:h-10 lg:w-10"/>
                         <div className="lg:mr-20 lg:ml-5">
