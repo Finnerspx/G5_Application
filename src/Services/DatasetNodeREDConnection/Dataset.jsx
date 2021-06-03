@@ -6,25 +6,27 @@ import ImageNodeREDConnection from '../ImageNodeREDConnection/ImageNodeREDConnec
 var datasetNames = [];
 var jsonObject = [];
 
+const outgoingSocket = new WebSocket('ws://127.0.0.1:1880/ws/datasetDetails');
+const incomingSocket = new WebSocket('ws://127.0.0.1:1880/ws/datasetDetailsResponse');
+
+
+incomingSocket.onopen = function (event) {
+    if (outgoingSocket.readyState === 1) {
+        outgoingSocket.send("datasetInformation");
+    }
+}
+
 
 const Dataset = (props) => {
 
     const [datasetNamesArray, setDatasetNames] = React.useState({});
 
-
-    /**
-     * Sending message to gather dataset details (name & thumbnail)
-     */
-
-     DatasetNodeREDConnection.incomingSocket.onopen = function (event) {
-        if (DatasetNodeREDConnection.outgoingSocket.readyState === 1) {
-            DatasetNodeREDConnection.outgoingSocket.send("datasetInformation");
-        }
-
+    function handleClick(datasetName) {
+        const booleanValue = true;
+        props.getData(booleanValue, datasetName);
     }
 
-
-    DatasetNodeREDConnection.incomingSocket.onmessage = event => {
+     incomingSocket.onmessage = event => {
         if (event.data == "finished") {
             setDatasetNames(datasetNames);
         } else {
@@ -36,17 +38,14 @@ const Dataset = (props) => {
         }
     }
 
-    function handleDatasetImagesRequest(name){
-       if (ImageNodeREDConnection.outgoingSocket.readyState === 1) {
-           ImageNodeREDConnection.outgoingSocket.send(name);
-           console.log(name);
-       }
-    }
+    const breakPoints = [
+        { width: 1920, itemsToShow: 3, itemsToScroll: 3 },
+    ]; 
 
 
 
     return (
-        <Carousel breakPoints={props.breakpoint}>
+        <Carousel breakPoints={breakPoints}>
             {datasetNames.map((datasets, index) => (
                 <div key={index} className="lg:p-3 justify-items-start">
                     <div className="lg:w-80 lg:h-52 rounded overflow-hidden lg:shadow-lg">
@@ -57,7 +56,7 @@ const Dataset = (props) => {
                                     {datasets.title}
                                 </div>
                                 <div className="ml-20">
-                                    <button onClick={handleDatasetImagesRequest(datasets.title)}>+</button>
+                                    <button onClick={() => handleClick(datasets.title)}>Button</button>
                                 </div>
                             </div>
                         </div>

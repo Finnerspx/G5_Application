@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+
+.item1 {grid-area: header;}
+.item2 {grid-area: sidebar; width: 200px;}
+.item3 {grid-area: main; display: inline-block;}
+.item4 {grid-area: mainSecond;}
+
+
+
+.grid-container {
+  display: grid;
+  grid-template-areas: 
+    'header header header header header header'
+    'sidebar main main main main main'
+    'sidebar mainSecond mainSecond mainSecond mainSecond mainSecond';
+
+}
+
+.grid-container > div {
+  text-align: center;
+
+}
