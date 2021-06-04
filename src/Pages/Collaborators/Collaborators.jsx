@@ -10,7 +10,7 @@ function Collaborators() {
             </div>
             <div className="w-full h-screen grid justify-items-center">
                 <div className="grid justify-items-center lg:mt-20">
-                    <h1 className="font-bold text-2xl">Work In Progress</h1>
+                    <h1 className="text-4xl text-orange-bright font-bold whitespace-nowrap uppercase">Work In Progress</h1>
                     <p className="font-normal text-xl">Check back soon - look below too what changes are due in which phase :)</p>
                 </div>
                 <div className="lg:mt-16">

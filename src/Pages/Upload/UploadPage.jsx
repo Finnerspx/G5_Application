@@ -8,9 +8,7 @@ function UploadPage() {
             <div>
                 <Navbar />
             </div>
-            <div className="w-full h-screen grid justify-items-center">
                 <UploadComponent/>
-            </div>
 
         </div>
     )

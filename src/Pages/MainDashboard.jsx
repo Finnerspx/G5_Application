@@ -10,13 +10,15 @@ import './MainDashboard.css';
 
 const outgoingSocket = new WebSocket('ws://127.0.0.1:1880/ws/imageDetails');
 var emptyArray = [];
+var filesToDownload = [];
 
-const MainDashboard = () => {
+const MainDashboard = (props) => {
 
     // var buttonClickedValue, datasetNameValue;
     const [buttonClicked, setButtonClicked] = React.useState();
     const [datasetNameValue, setDatasetNameValue] = React.useState();
-
+    const [downloadImages, setFilesToDownload] = React.useState();
+ 
     const datasetBreakpoints = [
         {
             width: 1920, itemsToShow: 3, itemsToScroll: 3
@@ -35,6 +37,14 @@ const MainDashboard = () => {
 
     }
 
+    function getDownloadData(imageTitle, imageThumbnail) {
+            filesToDownload.push({
+            title: imageTitle,
+            thumbnail: imageThumbnail
+        })
+        setFilesToDownload(filesToDownload);
+    }
+
     function sendImageDetailsRequest(buttonClickedCondition, nameOfDatasetSelected){
         if (buttonClickedCondition){
             if (outgoingSocket.readyState === 1) {
@@ -48,6 +58,10 @@ const MainDashboard = () => {
         setButtonClicked(buttonClickedUpdated);
     }
 
+    function handleImageEditData(nameOfImage, thumbnailOfImage, editButtonPressedValue){
+        props.getImageData(nameOfImage, thumbnailOfImage, editButtonPressedValue);
+    }
+
 
 
     return (
@@ -57,7 +71,7 @@ const MainDashboard = () => {
                     <Navbar />
                 </div>
                 <div className="item2">
-                    <Sidebar />
+                    <Sidebar filesToDownload={filesToDownload}/>
                 </div>
                 <div className="item3 lg:mt-10 lg:mr-40 ">
                     <div className="lg:flex lg:flex-row lg:items-center lg:font-normal lg:text-2xl">
@@ -78,7 +92,7 @@ const MainDashboard = () => {
                         </div>
                     </div>
                     <div>
-                    <Images refreshButtonClicked={refreshButtonClicked} breakpoints={imageBreakPoints} datasetName={datasetNameValue} booleanValue={buttonClicked}/>
+                    <Images handleImageEditData={handleImageEditData} refreshButtonClicked={refreshButtonClicked} getDownloadData={getDownloadData} breakpoints={imageBreakPoints} datasetName={datasetNameValue} booleanValue={buttonClicked}/>
                     </div>
                 </div>
             </div>
