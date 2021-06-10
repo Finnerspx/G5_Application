@@ -11,12 +11,16 @@ function App() {
   const [imageName, setImageName] = React.useState();
   const [imageThumbnail, setImageThumbnail] = React.useState();
   const [editButtonPressed, setEditButtonPressed] = React.useState(false);
+  const [datasetName, setDatasetName] = React.useState();
 
-  function getImageData(nameOfImage, thumbnailOfImage, editButtonPressedValue){
+  function getImageData(nameOfImage, thumbnailOfImage, editButtonPressedValue, nameOfDataset){
     setImageName(nameOfImage);
     setImageThumbnail(thumbnailOfImage);
     setEditButtonPressed(editButtonPressedValue);
+    setDatasetName(nameOfDataset);
   }
+
+
 
   return (
     <>
@@ -25,10 +29,10 @@ function App() {
         {/* {!isLoggedIn ? (<Form/>)
       : <MainDashboard/>} */}
         <Switch>
-          <Route path="/" exact component={()=> <MainDashboard getImageData={getImageData}/>} />
+          <Route path="/" exact component={()=> <MainDashboard  getImageData={getImageData}/>} />
           <Route path='/upload' component={UploadPage} />
           <Route path="/collaborators" component={Collaborators}/>
-          <Route path="/editPage" component={()=> <EditPage buttonPressed={editButtonPressed} imageName={imageName} thumbnailOfImage={imageThumbnail}/>}/>
+          <Route path="/editPage" component={()=> <EditPage datasetName={datasetName} buttonPressed={editButtonPressed} imageName={imageName} thumbnailOfImage={imageThumbnail}/>}/>
         </Switch>
       </Router>
 

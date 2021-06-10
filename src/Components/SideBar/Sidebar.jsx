@@ -24,56 +24,47 @@ function Sidebar(props) {
     return (
             <div className="justify-items-start md:w-60 lg:w-72 bg-orange-bright h-screen shadow-custom-shadow">
             <div className="lg:pt-10 lg:ml-5 lg:flex lg:flex-row lg:items-center lg:font-normal lg:text-xl">
-                    <FaFolder className="lg:w-8 lg:h-8" />
+                    {props.topIcon}
                     <div className="lg:ml-5">
-                        <h2>Dataset</h2>
+                        <h2>{props.topTitle}</h2>
                     </div>
                 </div>
                 <div className="flex flex-row">
-                    <div className="hover:text-white font-medium hover:bg-sundance-blue lg:mt-5 lg:ml-2 lg:bg-custom-gray lg:flex lg:justify-start lg:shadow-custom-shadow lg:items-center lg:rounded lg:h-10 lg:w-28">
-                        <Link to="/upload" className="lg:flex lg:inline lg:pl-4">
-                            <div className="lg:mr-2 lg:mt-1"><MdFileUpload /></div>
-                    Upload
-                    </Link>
-                    </div>
+                  {props.smallBtnOne}
                     <div className="lg:ml-3 lg:mt-5 lg:items-center lg:rounded">
-                        <button className="hover:text-white font-medium lg:h-10 lg:w-28 flex flex-row bg-custom-gray rounded outline-none pl-2 py-2 lg:shadow-custom-shadow hover:bg-sundance-blue" onClick={handleDownload} >
-                            <div className="lg:mr-1 lg:mt-1"><MdFileDownload /></div>
-                        Download
-                        </button>
+                       {props.smallBtnTwo}
                     </div>
                 </div>
                 <div className="flex flex-row">
-                    <div className="hover:text-white font-medium hover:bg-sundance-blue lg:mt-5 lg:ml-2 lg:bg-custom-gray lg:flex lg:justify-start lg:shadow-custom-shadow lg:items-center lg:rounded lg:h-9 lg:w-60">
-                        <Link to="/collaborators" className="lg:flex lg:inline lg:pl-9">
-                            <div className="lg:mr-2 lg:mt-1"><IoPersonAdd/></div>
-                            Add Collaborators
-                        </Link>
-                    </div>
+                   {props.longBtnOne}
                 </div>
                 <div className="lg:mt-10 lg:ml-5 lg:flex lg:flex-row lg:items-center lg:font-normal lg:text-xl">
-                    <IoInformationCircle className="lg:w-8 lg:h-8" />
+                   {props.midIcon}
                     <div className="lg:ml-5">
-                        <h2>Image Details</h2>
+                        <h2>{props.midTitle}</h2>
                     </div>
                 </div>
-                <p className="lg:pr-8 lg:mt-5 text-white font-medium text-md">To be implemented in phase 2</p>
+                <p className="lg:pr-8 lg:mt-5 text-white font-medium text-md">{props.phases}</p>
                 <div className="flex flex-row">
-                    <div className="hover:text-white font-semibold hover:bg-sundance-blue lg:mt-5 lg:ml-2 lg:bg-custom-gray lg:flex lg:justify-start lg:shadow-custom-shadow lg:items-center lg:rounded lg:h-10 lg:w-60">
-                        <Link to="/editPage" className="lg:flex lg:inline lg:pl-16">
-                            <div className="lg:mr-5 lg:mt-1"><MdEdit/></div>
-                            Edit
-                        </Link>
-                    </div>
+                    {props.longBtnTwo}
                 </div>
                 <div className="lg:mt-10 lg:ml-5 lg:flex lg:flex-row lg:items-center lg:font-normal lg:text-xl">
-                    <RiFilterFill className="lg:w-8 lg:h-8" />
+                    {props.lowIcon}
                     <div className="lg:ml-5">
-                        <h2>Filter</h2>
+                        <h2>{props.lowTitle}</h2>
                     </div>   
                 </div>
-                <p className="lg:pr-8 lg:mt-5 text-white font-semibold text-md">To be implemented in phase 2</p>
-                <div className="lg:pt-72">
+                <p className="lg:pr-8 lg:mt-5 text-white font-semibold text-md">{props.phases}</p>
+                <div className="lg:ml-3 lg:mt-5 lg:items-center lg:rounded">
+                    {props.longBtnThree}
+                </div>
+                <div className="lg:ml-3 lg:mt-5 lg:items-center lg:rounded">
+                    {props.longBtnFour}
+                </div>
+                <div className="lg:ml-3 lg:mt-5 lg:items-center lg:rounded">
+                    {props.longBtnFive}
+                </div>
+                <div className="lg:pt-24">
                     <button className="bg-sundance-blue lg:px-24 lg:py-3 font-bold text-xl text-black rounded shadow-custom-shadow hover:bg-sundance-gold hover:text-white">Training</button>                    
                 </div>
 
