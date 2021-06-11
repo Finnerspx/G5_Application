@@ -21,10 +21,9 @@ import 'reactjs-popup/dist/index.css';
 import './MainDashboard.css';
 import useBulkOperations from '../Components/Bulk_Operations/useBulkOperations';
 
-const outgoingSocket = new WebSocket('ws://127.0.0.1:1880/ws/imageDetails');
+
 const outgoingBulk = new WebSocket('ws://127.0.0.1:1880/ws/bulkEdit');
 
-var emptyArray = [];
 var filesToDownload = [];
 var zipFile = new JSZip();
 
@@ -41,17 +40,14 @@ const MainDashboard = (props) => {
             width: 1920, itemsToShow: 3, itemsToScroll: 3
         }
     ];
+
     const imageBreakPoints = [
         { width: 1920, itemsToShow: 4, itemsToScroll: 5 },
     ];
 
     function getData(buttonNewValue, datasetNewValue) {
-
         setButtonClicked(buttonNewValue);
         setDatasetNameValue(datasetNewValue);
-
-        sendImageDetailsRequest(buttonClicked, datasetNameValue);
-
     }
 
     function getDownloadData(imageTitle, imageThumbnail) {
@@ -60,19 +56,6 @@ const MainDashboard = (props) => {
             thumbnail: imageThumbnail
         })
         setFilesToDownload(filesToDownload);
-    }
-
-    function sendImageDetailsRequest(buttonClickedCondition, nameOfDatasetSelected) {
-        if (buttonClickedCondition) {
-            if (outgoingSocket.readyState === 1) {
-                outgoingSocket.send(nameOfDatasetSelected);
-            }
-        }
-
-    }
-
-    function refreshButtonClicked(buttonClickedUpdated) {
-        setButtonClicked(buttonClickedUpdated);
     }
 
     function handleImageEditData(nameOfImage, thumbnailOfImage, editButtonPressedValue) {
@@ -94,7 +77,6 @@ const MainDashboard = (props) => {
                 'type': 'rename',
                 'datasetName': datasetNameValue,
             };
-            
             outgoingBulk.send(JSON.stringify(bulkRename));
         }
     }
@@ -280,7 +262,7 @@ const MainDashboard = (props) => {
                     </div>
                 </div>
                 <div>
-                    <Images handleImageEditData={handleImageEditData} refreshButtonClicked={refreshButtonClicked} getDownloadData={getDownloadData} breakpoints={imageBreakPoints} datasetName={datasetNameValue} booleanValue={buttonClicked} />
+                    <Images handleImageEditData={handleImageEditData} getDownloadData={getDownloadData} breakpoints={imageBreakPoints} datasetName={datasetNameValue} booleanValue={buttonClicked} />
                 </div>
             </div>
         </div>

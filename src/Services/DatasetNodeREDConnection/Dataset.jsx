@@ -4,10 +4,13 @@ import DatasetNodeREDConnection from './DatasetNodeREDConnection';
 import ImageNodeREDConnection from '../ImageNodeREDConnection/ImageNodeREDConnection';
 
 var datasetNames = [];
+var imageNames = [];
 var jsonObject = [];
 
 const outgoingSocket = new WebSocket('ws://127.0.0.1:1880/ws/datasetDetails');
 const incomingSocket = new WebSocket('ws://127.0.0.1:1880/ws/datasetDetailsResponse');
+
+const imageOutgoingSocket = new WebSocket('ws://127.0.0.1:1880/ws/imageDetails');
 
 
 incomingSocket.onopen = function (event) {
@@ -22,11 +25,14 @@ const Dataset = (props) => {
     const [datasetNamesArray, setDatasetNames] = React.useState({});
 
     function handleClick(datasetName) {
+        if (imageOutgoingSocket.readyState === 1) {
+            imageOutgoingSocket.send(datasetName);
+        }
         const booleanValue = true;
         props.getData(booleanValue, datasetName);
     }
 
-     incomingSocket.onmessage = event => {
+    incomingSocket.onmessage = event => {
         if (event.data == "finished") {
             setDatasetNames(datasetNames);
         } else {
@@ -40,7 +46,7 @@ const Dataset = (props) => {
 
     const breakPoints = [
         { width: 1920, itemsToShow: 3, itemsToScroll: 3 },
-    ]; 
+    ];
 
 
 
