@@ -55,7 +55,7 @@ function Navbar() {
                     </a>
                   </li>
                 </ul>
-                <div className="sundance-logo">
+                <div className="sundance-logo-nav">
                     <img src={Logo}></img>
                 </div>
               </div>

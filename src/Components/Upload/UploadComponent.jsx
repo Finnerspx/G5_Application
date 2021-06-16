@@ -10,8 +10,10 @@ function UploadComponent() {
 
 
     const { handleFileChange, handleFileSubmit, values } = useUpload();
+    const [totalFiles, setTotalFiles] = React.useState(0);
     var multipleFileName = [];
     var multipleFileBase64 = [];
+    var imageFiles = [];
 
 
 
@@ -28,6 +30,9 @@ function UploadComponent() {
                 // setFile(file.name);
             }
         }
+
+        var totalFiles = e.target.files.length;
+        document.getElementById("numberOfFiles").innerHTML = totalFiles;
     }
 
     const _handleReaderLoader = readEvent => {
@@ -36,7 +41,6 @@ function UploadComponent() {
          */
         let binaryString = readEvent.target.result;
         multipleFileBase64.push(btoa(binaryString));
-        // setBase64(btoa(binaryString));
     }
 
     const onFileSubmit = e => {
@@ -49,14 +53,25 @@ function UploadComponent() {
                     'fileName': multipleFileName[i],
                     'base64': multipleFileBase64[i]
                 }
-                outgoingSocket.send(JSON.stringify(imageDetails));
-                var indexName = multipleFileName.indexOf(i);
-                var indexBase64 = multipleFileBase64.indexOf(i);
-                multipleFileName.splice(indexName, 1);
-                multipleFileBase64.splice(indexBase64, 1);
+                imageFiles.push(imageDetails);
             }
+            outgoingSocket.send(JSON.stringify(imageFiles));
+        }
+    }
 
+    incomingSocket.onmessage = event => {
+        var json_object = JSON.parse(event.data)
 
+        if (json_object.trigger === "upload successful") {
+            window.alert(json_object.amount + " files were uploaded successfully.");
+        } else if (json_object.trigger === "upload unsuccessful") {
+            window.alert("There was an error uploading " + json_object.amount + " files. Please try again later. If the problem persists contact technical support.");
+        } else if (json_object.trigger === "file already exists") {
+            window.alert(json_object.amount + " files with the same filename already exist. Please change the offending filenames and try again.");
+        } else if (json_object.trigger === "files too large") {
+            window.alert("The " + json_object.amount + "Mb total file size you attemtped to upload exceeds the 250Mb upload limit. Please reduce the total file size and try again.");
+        } else {
+            window.alert("Error");
         }
     }
 
@@ -86,45 +101,19 @@ function UploadComponent() {
                                                 <div className="flex flex-col items-center "> <i className="fa fa-cloud-upload fa-3x text-gray-200"></i> <span class="block text-gray-400 font-normal">Attach you files here</span> <span class="block text-gray-400 font-normal">or</span> <span class="block text-blue-400 font-normal">Browse files</span> </div>
                                             </div> <input type="file" accept="image/jpeg" id="file" allowdirs="true" multiple className="h-full w-full opacity-0" name="" />
                                         </div>
-                                        <div className="flex justify-between items-center text-gray-400"> <span>Accepted file type:jpg/jpeg only</span> <span class="flex items-center "><i class="fa fa-lock mr-1"></i> secure</span> </div>
+                                        <p id="showFiles"></p>
+                                        <div className="flex justify-between items-center text-gray-400"> <span>Accepted file type:jpg/jpeg only</span> <span class="flex items-center "><i class="fa fa-lock mr-1"></i> Total Selected Files: <a id="numberOfFiles" className="text-orange-bright">0</a></span> </div>
                                     </div>
-                                    <div className="mt-3 text-center pb-3">  <input className="shadow-custom-shadow h-10 w-96 rounded-xl text-xl text-white bg-sundance-blue hover:bg-orange-bright cursor-pointer" type="submit" /> </div>
+                                    <div className="mt-3 text-center pb-3">
+                                        <input className="shadow-custom-shadow h-10 w-96 rounded-xl text-xl text-white bg-sundance-blue hover:bg-orange-bright cursor-pointer" type="submit" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </form>
-
             </div>
-
-
         </div>
-
-        // <div className="lg:mt-28">
-        //     <div>
-        //         <h1 className="text-4xl text-orange-bright font-bold inline-block mr-4 py-2 whitespace-nowrap uppercase">Upload Page</h1>
-        //     </div>
-        //     <div>
-        //         <form className="bg-white lg:shadow-xl rounded lg:px-8 lg:pt-6 lg:pb-8 lg:mb-4" onSubmit={(e) => onFileSubmit(e)} onChange={(e) => handleFileChange(e)}>
-        //             <input className="outline-none placeholder-sundance-blue mt-5" type="text" name="datasetName" placeholder="Enter dataset name" value={values.datasetName} onChange={handleFileChange}></input>
-        //         </form>
-        //     </div>
-        //     <div>
-        //         <form className="lg:mt-5" onSubmit={(e) => onFileSubmit(e)} onChange={(e) => onChange(e)}>
-        //                 <label className=" ml-5 bg-sundance-blue w-64 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-orange-bright text-white hover:text-sundance-blue">
-        //                     <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-        //                         <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-        //                     </svg>
-        //                     <span className="mt-2 text-base leading-normal">Select a file</span>
-        //                     <input type='file' className="hidden" id="file" allowdirs="true" multiple />
-        //                 </label>
-        //             <div className="lg:mt-5 items-center">
-        //                 <input className="shadow-custom-shadow h-10 w-80 rounded-xl text-xl text-white bg-sundance-blue hover:bg-orange-bright cursor-pointer" type="submit" />
-        //             </div>
-        //         </form>
-        //     </div>
-
-        // </div>
     );
 }
 

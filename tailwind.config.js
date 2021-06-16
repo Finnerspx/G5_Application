@@ -22,6 +22,9 @@ module.exports = {
         'custom-shadow': '5px 5px 5px rgba(0.8, 0.7, 0.6, 0.5)' 
       }
     },
+    cursor: {
+      crosshair: 'crosshair'   
+    }
   },
   variants: {
     extend: {},

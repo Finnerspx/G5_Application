@@ -5,7 +5,7 @@ import Dataset from '../Services/DatasetNodeREDConnection/Dataset';
 import Images from '../Services/ImageNodeREDConnection/Images';
 import { FaFolder } from 'react-icons/fa';
 import { IoMdImage } from 'react-icons/io';
-import { IoPersonAdd, IoInformationCircle } from "react-icons/io5";
+import { IoPersonAdd, IoInformationCircle, IoCodeWorking } from "react-icons/io5";
 import { Link } from 'react-router-dom';
 import { RiFilterFill } from "react-icons/ri";
 import { HiOutlineRefresh } from "react-icons/hi";
@@ -20,6 +20,7 @@ import 'reactjs-popup/dist/index.css';
 
 import './MainDashboard.css';
 import useBulkOperations from '../Components/Bulk_Operations/useBulkOperations';
+import ContinueCheck from '../Components/Bulk_Operations/continueCheck';
 
 
 const outgoingBulk = new WebSocket('ws://127.0.0.1:1880/ws/bulkEdit');
@@ -58,8 +59,8 @@ const MainDashboard = (props) => {
         setFilesToDownload(filesToDownload);
     }
 
-    function handleImageEditData(nameOfImage, thumbnailOfImage, editButtonPressedValue) {
-        props.getImageData(nameOfImage, thumbnailOfImage, editButtonPressedValue, datasetNameValue);
+    function handleImageEditData(nameOfImage, thumbnailOfImage, editButtonPressedValue, imageWidth, imageHeight) {
+        props.getImageData(nameOfImage, thumbnailOfImage, editButtonPressedValue, datasetNameValue, imageWidth, imageHeight);
     }
 
     function handleDownload() {
@@ -72,7 +73,7 @@ const MainDashboard = (props) => {
     }
 
     function handleBulkRename() {
-        if (outgoingBulk.readyState === 1){
+        if (outgoingBulk.readyState === 1) {
             var bulkRename = {
                 'type': 'rename',
                 'datasetName': datasetNameValue,
@@ -81,7 +82,7 @@ const MainDashboard = (props) => {
         }
     }
 
-    const {theBulkRotate, theBulkResize, handleRotateChange, handleResizeChange, handleRotateSubmit,handleResizeSubmit } = useBulkOperations(datasetNameValue);
+    const { theBulkRotate, theBulkResize, handleRotateChange, handleResizeChange, handleRotateSubmit, handleResizeSubmit } = useBulkOperations(datasetNameValue);
 
     return (
 
@@ -130,7 +131,7 @@ const MainDashboard = (props) => {
                     </Link>
                     </div>}
 
-                    longBtnThree={ <Popup
+                    longBtnThree={<Popup
                         trigger={<button className="hover:text-white font-medium lg:h-10 lg:w-60 flex flex-row bg-custom-gray rounded outline-none pl-2 py-2 lg:shadow-custom-shadow hover:bg-sundance-blue" >
                             <div className="lg:mr-5 lg:mt-1"><GiResize className="lg:ml-10" /></div>
                     Bulk Resize
@@ -140,51 +141,100 @@ const MainDashboard = (props) => {
                     >
                         {close => (
                             <div>
-                                <button className="lh:w-5 lg:w-5" onClick={close}>
-                                    &times;
+                                <form onSubmit={(e) => handleResizeSubmit(e)} onChange={(e) => handleResizeChange(e)}>
+                                    <button className="lh:w-5 lg:w-5" onClick={close}>
+                                        &times;
                         </button>
-                                <div className="text-xl font-medium text-black-dark  grid justify-items-center"> Bulk Reize </div>
-                                <div className="content">
-                                    {' '}
-                                    <div className="grid justify-items-center">
-                                    <div className="bg-black-dark lg:mt-5 lg:w-72 lg:h-16 shadow-custom-shadow">
-                                        <form onSubmit={(e) => handleResizeSubmit(e)} onChange={(e) => handleResizeChange(e)}>
-                                            <input className="lg:w-72 lg:h-16 text-center bg-black-dark outline-none placeholder-white" 
-                                            type="text" 
-                                            placeholder="Enter new size"
-                                            name="bulkResize"
-                                            value={theBulkResize}
-                                            onChange={handleResizeChange}
-                                            />
-                                                <input type="submit" />
-                                        </form>
+                                    <div className="text-xl font-medium text-black-dark  grid justify-items-center"> Bulk Reize </div>
+                                    <div className="content">
+                                        {' '}
+                                        <div className="grid justify-items-center">
+                                            <div className="bg-black-dark lg:mt-5 lg:w-72 lg:h-16 shadow-custom-shadow">
+                                                <input className="lg:w-72 lg:h-16 text-center bg-black-dark outline-none placeholder-white"
+                                                    type="text"
+                                                    placeholder="Enter new size"
+                                                    name="bulkResize"
+                                                    value={theBulkResize}
+                                                    onChange={handleResizeChange}
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
+                                    <div className="grid grid-cols-2 lg:mt-4">
+                                        <div className="grid justify-items-center">
+                                            <Popup
+                                                trigger={<button className="lg:ml-72 shadow-custom-shadow w-32 lg:h-10 rounded text-xl text-white bg-black-dark hover:bg-orange-bright cursor-pointer" >
+                                                    Continue
+            </button>}
+                                                modal
+                                                nested
+                                            >
+                                                {close => (
+                                                    <div>
+                                                        <button className="lh:w-5 lg:w-5" onClick={close}>
+                                                            &times;
+                        </button>
+                                                        <div className="text-lg font-medium text-black-dark  grid justify-items-center"> Do you wish to continue?</div>
+                                                        <div className="content">
+                                                            {' '}
+                                                            <div className="grid justify-items-center">
+                                                                <ContinueCheck resize={true} resizeValue={theBulkResize} datasetName={datasetNameValue} />
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                )}
+                                            </Popup>
+                                            {/* <input className="lg:ml-72 shadow-custom-shadow w-32 lg:h-10 rounded text-xl text-white bg-black-dark hover:bg-orange-bright cursor-pointer" type="submit" /> */}
+                                        </div>
+                                        <div className="grid justify-items-center">
+                                            <div className="lg:mr-72 shadow-custom-shadow w-32 lg:h-10 rounded text-xl text-white bg-black-dark hover:bg-orange-bright cursor-pointer">
+                                                <button
+                                                    className="lg:ml-10 lg:mt-1"
+                                                    onClick={() => {
+                                                        close();
+                                                    }}
+                                                >
+                                                    close
+                                        </button>
+                                            </div>
+                                        </div>
                                     </div>
-                                  
 
-                                </div>
-                                <div className="grid justify-items-center">
-                                <div className="shadow-custom-shadow w-32 lg:mt-5 lg:h-10 rounded text-xl text-white bg-black-dark hover:bg-orange-bright cursor-pointer">
-                                    <button
-                                        className="lg:ml-10 lg:mt-1"
-                                        onClick={() => {
-                                            close();
-                                        }}
-                                    >
-                                        close
-                                    </button>
-                                </div>
-                                </div>
+                                </form>
 
-                         
                             </div>
                         )}
                     </Popup>
                     }
-                    longBtnFour={<button onClick={handleBulkRename} className="hover:text-white font-medium lg:h-10 lg:w-60 flex flex-row bg-custom-gray rounded outline-none pl-2 py-2 lg:shadow-custom-shadow hover:bg-sundance-blue" >
-                        <div className="lg:mr-5 lg:mt-1"><BiRename className="lg:ml-10" /></div>
+
+                    longBtnFour={<Popup
+                        trigger={<button className="hover:text-white font-medium lg:h-10 lg:w-60 flex flex-row bg-custom-gray rounded outline-none pl-2 py-2 lg:shadow-custom-shadow hover:bg-sundance-blue" >
+                            <div className="lg:mr-5 lg:mt-1"><BiRename className="lg:ml-10" /></div>
                          Bulk Rename
-                          </button>
+                          </button>}
+                        modal
+                        nested
+                    >
+                        {close => (
+                            <div>
+                                <button className="lh:w-5 lg:w-5" onClick={close}>
+                                    &times;
+                        </button>
+                                <div className="text-lg font-medium text-black-dark  grid justify-items-center"> Do you wish to continue?</div>
+                                <div className="content">
+                                    {' '}
+                                    <div className="grid justify-items-center">
+                                    <button className="lg:mt-4 shadow-custom-shadow w-32 lg:h-10 rounded text-xl text-white bg-sundance-blue hover:bg-orange-bright cursor-pointer" onClick={handleBulkRename}>Yes</button>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        )}
+                    </Popup>
                     }
                     longBtnFive={
                         <Popup
@@ -197,43 +247,71 @@ const MainDashboard = (props) => {
                         >
                             {close => (
                                 <div>
-                                    <button className="lh:w-5 lg:w-5" onClick={close}>
-                                        &times;
+                                    <form onChange={(e) => handleRotateChange(e)} onSubmit={(e) => handleRotateSubmit(e)} >
+
+                                        <button className="lh:w-5 lg:w-5" onClick={close}>
+                                            &times;
                             </button>
-                                    <div className="text-xl font-medium text-black-dark  grid justify-items-center"> Bulk Rotate </div>
-                                    <div className="content">
-                                        {' '}
-                                        <div className="grid justify-items-center">
-                                        <div className="bg-black-dark lg:mt-5 lg:w-72 lg:h-16 shadow-custom-shadow">
-                                            <form onChange={(e) => handleRotateChange(e)} onSubmit={(e) => handleRotateSubmit(e)} >
-                                                <input className="lg:w-72 lg:h-16 text-center bg-black-dark outline-none placeholder-white" 
-                                                type="text" placeholder="Enter rotation degree"
-                                                name="bulkRotate"
-                                                value={theBulkRotate}
-                                                onChange={handleRotateChange}
-                                                
-                                                />
-                                                <input type="submit" />
-                                            </form>
-                                        </div>
-                                        </div>
-                                      
+                                        <div className="text-xl font-medium text-black-dark  grid justify-items-center"> Bulk Rotate </div>
+                                        <div className="content">
+                                            {' '}
+                                            <div className="grid justify-items-center">
+                                                <div className="bg-black-dark lg:mt-5 lg:w-72 lg:h-16 shadow-custom-shadow">
+                                                    <input className="lg:w-72 lg:h-16 text-center bg-black-dark outline-none placeholder-white"
+                                                        type="text" placeholder="Enter rotation degree"
+                                                        name="bulkRotate"
+                                                        value={theBulkRotate}
+                                                        onChange={handleRotateChange}
 
-                                    </div>
-                                    <div className="grid justify-items-center">
-                                    <div className="shadow-custom-shadow w-32 lg:mt-5 lg:h-10 rounded text-xl text-white bg-black-dark hover:bg-orange-bright cursor-pointer">
-                                        <button
-                                            className="lg:ml-10 lg:mt-1"
-                                            onClick={() => {
-                                                close();
-                                            }}
-                                        >
-                                            close
+                                                    />
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div className="grid grid-cols-2 lg:mt-4">
+                                            <div className="grid justify-items-center">
+                                                <Popup
+                                                    trigger={<button className="lg:ml-72 shadow-custom-shadow w-32 lg:h-10 rounded text-xl text-white bg-black-dark hover:bg-orange-bright cursor-pointer" >
+                                                        Continue
+            </button>}
+                                                    modal
+                                                    nested
+                                                >
+                                                    {close => (
+                                                        <div>
+                                                            <button className="lh:w-5 lg:w-5" onClick={close}>
+                                                                &times;
+                        </button>
+                                                            <div className="text-lg font-medium text-black-dark  grid justify-items-center"> Do you wish to continue?</div>
+                                                            <div className="content">
+                                                                {' '}
+                                                                <div className="grid justify-items-center">
+                                                                    <ContinueCheck resize={false} resizeValue={theBulkRotate} datasetName={datasetNameValue} />
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+                                                    )}
+                                                </Popup>
+                                            </div>
+                                            <div className="grid justify-items-center">
+                                                <div className="lg:mr-72 shadow-custom-shadow w-32 lg:h-10 rounded text-xl text-white bg-black-dark hover:bg-orange-bright cursor-pointer">
+                                                    <button
+                                                        className="lg:ml-10 lg:mt-1"
+                                                        onClick={() => {
+                                                            close();
+                                                        }}
+                                                    >
+                                                        close
                                         </button>
-                                    </div>
-                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                             
+
+                                    </form>
                                 </div>
                             )}
                         </Popup>
@@ -250,11 +328,11 @@ const MainDashboard = (props) => {
                         <h3>Dataset</h3>
                     </div>
                 </div>
-                <div className="lg:mt-16">
+                <div className="lg:mt-5">
                     <Dataset getData={getData} />
                 </div>
             </div>
-            <div className="item4  lg:mb-60 lg:mr-20">
+            <div className="item4 lg:mb-60 lg:mr-20">
                 <div className="lg:flex lg:flex-row lg:items-center lg:font-normal lg:text-2xl">
                     <IoMdImage className="lg:h-10 lg:w-10" />
                     <div className="lg:mr-20 lg:ml-5">

@@ -57,12 +57,12 @@ const Dataset = (props) => {
                     <div className="lg:w-80 lg:h-52 rounded overflow-hidden lg:shadow-lg">
                         <img className="rounded w-full h-40 object-cover" src={'data:image/jpeg; base64,' + datasets.thumbnail} />
                         <div>
-                            <div className="flex flex-row items-center">
-                                <div className="font-semibold text-lg text-orange-bright overflow-ellipsis overflow-hidden lg:justify-items-start lg:ml-3 lg:w-20">
+                            <div className="flex flex-row items-center lg:pt-2">
+                                <div className="font-semibold text-lg text-black overflow-ellipsis truncate lg:justify-items-start lg:ml-3 lg:w-24">
                                     {datasets.title}
                                 </div>
                                 <div className="ml-20">
-                                    <button onClick={() => handleClick(datasets.title)}>Button</button>
+                                    <button className="lg:px-3 lg:py-1 bg-sundance-blue rounded font-medium text-white hover:bg-orange-bright" onClick={() => handleClick(datasets.title)}>Select</button>
                                 </div>
                             </div>
                         </div>

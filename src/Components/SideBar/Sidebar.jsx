@@ -64,7 +64,7 @@ function Sidebar(props) {
                 <div className="lg:ml-3 lg:mt-5 lg:items-center lg:rounded">
                     {props.longBtnFive}
                 </div>
-                <div className="lg:pt-24">
+                <div className="lg:pt-10">
                     <button className="bg-sundance-blue lg:px-24 lg:py-3 font-bold text-xl text-black rounded shadow-custom-shadow hover:bg-sundance-gold hover:text-white">Training</button>                    
                 </div>
 
