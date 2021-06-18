@@ -10,16 +10,14 @@ import { saveAs } from 'file-saver';
 
 var zipFile = new JSZip();
 
+/**
+ * Represents Sidebar
+ * @param {*} props 
+ * @returns Sidebar JSX
+ */
+
 function Sidebar(props) {
 
-    function handleDownload() {
-        for (var i = 0; i < props.filesToDownload.length; i++) {
-            zipFile.file(props.filesToDownload[i].title, props.filesToDownload[i].base64, { base64: true });
-        }
-        zipFile.generateAsync({ type: "blob" }).then(function (content) {
-            saveAs(content, "download.zip");
-        })
-    }
     
     return (
             <div className="justify-items-start md:w-60 lg:w-72 bg-orange-bright h-screen shadow-custom-shadow">

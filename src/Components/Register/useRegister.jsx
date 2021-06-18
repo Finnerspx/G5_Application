@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import RegisterNodeREDConnection from './RegisterNodeREDConnection';
 
+/**
+ * Represents useRegister
+ * @param {*} props 
+ * @param {function} validate 
+ * @returns handleChange, handleSubmit, values, errors
+ */
+
 const useRegister = (props, validate) => {
 
 
@@ -16,6 +23,11 @@ const useRegister = (props, validate) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
 
+    /**
+     * Represents handleChange
+     * @param {event} event 
+     * Sets values of the array by capturing the name attribute of the input tag within RegisterForm.jsx this is then set with the value attribute from the input tag
+     */
     const handleChange = event => {
     
         setValues({
@@ -25,14 +37,13 @@ const useRegister = (props, validate) => {
       
     };
 
-    // RegisterNodeREDConnection.incomingSocket.onmessage = e => {
-    //     if (e.data == "register success"){
-    //         window.alert("successsssssssss");
-    //         displaySuccessOrNot = <SnackbarContent message="Registration Successful" action={action}/>;
-    //     }else {
-    //         displaySuccessOrNot = <div>Loading...</div>;
-    //     }
-    // }
+    /**
+     * Represents handleSubmit
+     * @param {event} event 
+     * set errors array by setting them equal to return of validate functon which takes in the values.
+     * props calls method successfulRegister from App.js and passes in true
+     * Sends JSON object of registration details to Node-RED
+     */
 
     const handleSubmit = event => {
         event.preventDefault();
@@ -51,22 +62,8 @@ const useRegister = (props, validate) => {
 
             RegisterNodeREDConnection.outgoingSocket.send(JSON.stringify(sendDetails));
         }
-
-    //   RegisterNodeREDConnection.incomingSocket.onmessage = e => {
-    //       if (e.data == "register success"){
-    //           window.alert("Successssssssssss");
-    //       }
-    //   }
     }
 
-    // useEffect(
-    //     () => {
-    //       if (Object.keys(errors).length === 0 && isSubmitting) {
-    //         callback();
-    //       }
-    //     },
-    //     [errors]
-    //   );
 
     return { handleChange, handleSubmit, values, errors };
 

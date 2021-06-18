@@ -28,6 +28,16 @@ const outgoingBulk = new WebSocket('ws://127.0.0.1:1880/ws/bulkEdit');
 var filesToDownload = [];
 var zipFile = new JSZip();
 
+/**
+ * Represents the Main Dashboard
+ * @param {*} props 
+ * @returns jsx on main dashboad
+ * Controls components which perform different types of functionality such as bulk operations, 
+ * edit, upload, download, logout and more. 
+ * Passes functions as props into components and sets data such as state of dataset name and base64 image.
+ * 
+ */
+
 
 const MainDashboard = (props) => {
 
@@ -47,10 +57,22 @@ const MainDashboard = (props) => {
         { width: 1920, itemsToShow: 4, itemsToScroll: 5 },
     ];
 
+    /**
+     * Represents getData
+     * @param {boolean} buttonNewValue 
+     * @param {string} datasetNewValue 
+     * passes function into Dataset as props and values are then set in this function.
+     */
     function getData(buttonNewValue, datasetNewValue) {
         setButtonClicked(buttonNewValue);
         setDatasetNameValue(datasetNewValue);
     }
+    /**
+     * Represents getDownloadData 
+     * @param {string} imageTitle 
+     * @param {string} imageThumbnail 
+     * Captures details of images to be downloaded and sets them within an array.
+     */
 
     function getDownloadData(imageTitle, imageThumbnail) {
         filesToDownload.push({
@@ -59,14 +81,34 @@ const MainDashboard = (props) => {
         })
         setFilesToDownload(filesToDownload);
     }
+    /**
+     * Represents getIsClicked 
+     * @param {boolean} isClicked 
+     * If the log out button is clicked, call upoon props function and pass boolean value in back to App.js
+     */
 
     function getIsClicked(isClicked) {
         props.getLoggedOut(isClicked)
     }
+    /**
+     * Represents handleImageData
+     * @param {string} nameOfImage 
+     * @param {string} thumbnailOfImage 
+     * @param {boolean} editButtonPressedValue 
+     * @param {int} imageWidth 
+     * @param {int} imageHeight 
+     * Calls upon function getImageData passed in as props from App.js
+     */
 
     function handleImageEditData(nameOfImage, thumbnailOfImage, editButtonPressedValue, imageWidth, imageHeight) {
         props.getImageData(nameOfImage, thumbnailOfImage, editButtonPressedValue, datasetNameValue, imageWidth, imageHeight);
     }
+    /**
+     * Represents handleDownload
+     * for loops through array of filesToDownload which has values set in function getDownloadData().
+     * Using JSZip it adds files at index position of array and captures the values of name and base64.
+     * an asynchronous method is called which utilises file-saver API 'saveAs' which saves content in .zip format with the name of the zip as "download"
+     */
 
     function handleDownload() {
         for (var i = 0; i < filesToDownload.length; i++) {
@@ -76,6 +118,11 @@ const MainDashboard = (props) => {
             saveAs(content, "download.zip");
         })
     }
+    /**
+     * Represents handleBulkRename
+     * Takes outgoing socket to Node-RED for bulk operations and if ready state is okay sends JSON object for Node-RED to interpret and rename all files in given dataset
+     * var sent as JSON object which is stringified.
+     */
 
     function handleBulkRename() {
         if (outgoingBulk.readyState === 1) {
@@ -86,6 +133,8 @@ const MainDashboard = (props) => {
             outgoingBulk.send(JSON.stringify(bulkRename));
         }
     }
+
+    // Bulk operations has a hook where all the reevant controller functions are returned from and used within this Main Dahsboard.
 
     const { theBulkRotate, theBulkResize, handleRotateChange, handleResizeChange, handleRotateSubmit, handleResizeSubmit } = useBulkOperations(datasetNameValue);
 

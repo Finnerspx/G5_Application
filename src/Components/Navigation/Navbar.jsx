@@ -6,7 +6,19 @@ import Logo from '../../Logo/Logo.png';
 import '../../Logo/logo.css';
 import {Link} from 'react-router-dom'
 
+/**
+ * Represents Navbar
+ * @param {*} props 
+ * @returns JSX for navigation with use of props for values passed in 
+ */
+
 const Navbar = (props) => {
+
+  /**
+   * Represents getIsClicked
+   * @param {boolean} isClicked 
+   * props function to determine dropdown being clicked so it opens
+   */
 
   function getIsClicked(isClicked) {
     props.getIsClicked(isClicked)

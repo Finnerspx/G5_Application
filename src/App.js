@@ -7,8 +7,15 @@ import EditPage from './Pages/Edit/EditPage';
 import LoginNodeREDConnection from './Components/Login/LoginNodeRedConnection';
 import Form from './Pages/Form/Form';
 
-
+  /**
+   * Represents main run time function. 
+   * Controls the state of whether a user is logged in or not. 
+   * Conditional rendering based on login success as to whether user is met with landing page or main dashboard.
+   * Routes are set within App for navigation.
+   */
+  
 function App() {
+
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 

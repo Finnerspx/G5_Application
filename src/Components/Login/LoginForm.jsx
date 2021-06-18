@@ -4,7 +4,11 @@ import useLogin from './useLogin';
 import loginValidation from './LoginValidation';
 import Logo from '../../Logo/Logo.png';
 
-
+/**
+ * Represents LoginFrom
+ * @param {boolean} param0 
+ * @returns JSX Form for login.
+ */
 const LoginForm = ({submitLogin}) => {
 
     const { handleSubmit, handleChange, values, errors } = useLogin(submitLogin, loginValidation);

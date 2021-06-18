@@ -1,8 +1,11 @@
 import React from 'react';
 import { createPopper } from "@popperjs/core";
-import { IcoFaUserAltnName } from "react-icons/fa";
-import { MdHelpOutline } from "react-icons/md";
 
+/**
+ * Represents Dropdown
+ * @param {*} props 
+ * @returns JSX of a dropdown menu within the Navbar
+ */
 
 const Dropdown = (props) => {
 

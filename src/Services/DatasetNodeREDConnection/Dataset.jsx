@@ -4,25 +4,29 @@ import DatasetNodeREDConnection from './DatasetNodeREDConnection';
 import ImageNodeREDConnection from '../ImageNodeREDConnection/ImageNodeREDConnection';
 
 var datasetNames = [];
-var imageNames = [];
-var jsonObject = [];
 
-const outgoingSocket = new WebSocket('ws://127.0.0.1:1880/ws/datasetDetails');
 const incomingSocket = new WebSocket('ws://127.0.0.1:1880/ws/datasetDetailsResponse');
 
 const imageOutgoingSocket = new WebSocket('ws://127.0.0.1:1880/ws/imageDetails');
 
 
-// incomingSocket.onopen = function (event) {
-//     if (outgoingSocket.readyState === 1) {
-//         outgoingSocket.send("datasetInformation");
-//     }
-// }
-
+/**
+ * Represents Dataset
+ * @param {*} props 
+ * @returns Carousel of mapped dataset.
+ */
 
 const Dataset = (props) => {
 
     const [datasetNamesArray, setDatasetNames] = React.useState({});
+
+    /**
+     * Represents handleClick
+     * @param {string} datasetName 
+     * Upon selecting the button found within the card of the dataset *Select* this function is called. 
+     * Sends the datasetName to Node-RED and sets a boolean value to true which references to MainDashboard that the button has been clicked. 
+     * Dataset takes in props and a function getData is passed as props from MainDashboard, here the function is called with the dataset name and boolean value passed back to it.
+     */
 
     function handleClick(datasetName) {
         if (imageOutgoingSocket.readyState === 1) {

@@ -4,6 +4,12 @@ import Button from '@material-ui/core/Button';
 import useRegister from './useRegister';
 import registerValidation from './RegisterValidation';
 
+/**
+ * Represents RegisterSuccess
+ * @param {boolean} param0 
+ * @returns JSX of register success form with snackbar
+ */
+
 const RegisterSuccess = ({ submitForm }) => {
 
     const action = (
@@ -13,7 +19,7 @@ const RegisterSuccess = ({ submitForm }) => {
     );
 
 
-    const { handleSubmit, handleChange, values, errors } = useRegister(submitForm, registerValidation);
+    const { handleSubmit, handleChange, values, errors } = useRegister(submitForm, registerValidation); //use Hook from useRegister
 
 
     return (

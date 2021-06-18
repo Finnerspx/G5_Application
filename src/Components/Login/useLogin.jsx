@@ -3,7 +3,13 @@ import LoginNodeREDConnection from './LoginNodeRedConnection';
 
 const outgoingSocket = new WebSocket('ws://127.0.0.1:1880/ws/datasetDetails');
 
-const useLogin = (callback, validate) => {
+/**
+ * Represents useLogin
+ * @param {function} validate 
+ * @returns handleChange, handleSubmit, values, errors
+ */
+
+const useLogin = ( validate) => { //React Hook
 
 
     const [values, setValues] = useState({
@@ -14,6 +20,11 @@ const useLogin = (callback, validate) => {
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    /**
+     * Represents handleChange
+     * @param {event} event 
+     * Sets values of the array by capturing the name attribute of the input tag within LoginForm.jsx this is then set with the value attribute from the input tag
+     */
 
     const handleChange = event => {
     
@@ -23,6 +34,13 @@ const useLogin = (callback, validate) => {
         });
       
     };
+
+    /**
+     * Represents handleSubmit
+     * @param {event} event 
+     * Set errors array by setting them equal to return of validate functon which takes in the values.
+     * Sends login details as JSON object to Node-RED
+     */
 
 
     const handleSubmit = event => {
@@ -48,14 +66,7 @@ const useLogin = (callback, validate) => {
 
     }
 
-    // useEffect(
-    //     () => {
-    //         if (Object.keys(errors).length === 0 && isSubmitting) {
-    //             callback();
-    //         }
-    //     },
-    //     [errors]
-    // );
+
 
     return { handleChange, handleSubmit, values, errors };
 

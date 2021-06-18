@@ -1,5 +1,8 @@
 import WIP from '../../Logo/wip.png';
 
+/**
+ * exports two constant hardcoded arrays which can be mapped within Collaborators.jsx
+ */
 export const PhaseTwoData = [
 
     {

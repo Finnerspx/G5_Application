@@ -4,9 +4,15 @@ import useRegister from './useRegister';
 import registerValidation from './RegisterValidation';
 import RegisterNodeREDConnection from './RegisterNodeREDConnection';
 
+/**
+ * Represents RegisterFrom
+ * @param {*} props 
+ * @returns JSX Form on register sizde
+ */
+
 const RegisterForm = (props) => {
 
-    const {  handleSubmit, handleChange, values, errors } = useRegister(props, registerValidation);
+    const {  handleSubmit, handleChange, values, errors } = useRegister(props, registerValidation); //React Hook
   
 
     return (

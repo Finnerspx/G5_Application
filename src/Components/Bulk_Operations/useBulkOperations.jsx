@@ -4,6 +4,13 @@ import Popup from 'reactjs-popup';
 
 const outgoingSocket = new WebSocket('ws://127.0.0.1:1880/ws/bulkEdit');
 
+/**
+ * Represents useBulkOperations
+ * @param {string} datasetNameValue 
+ * @returns theBulkRotate, theBulkResize, handleRotateChange, handleResizeChange, handleRotateSubmit,handleResizeSubmit
+ */
+
+
 function useBulkOperations(datasetNameValue) {
 
 
@@ -12,7 +19,11 @@ function useBulkOperations(datasetNameValue) {
 
     const [theBulkResize, setBulkResize] = React.useState();
 
-
+/**
+ * Represents handleRotateChaneg
+ * Deals with event changes spefically for Rotate within MainDahsboard.jsx
+ * @param {event} e 
+ */
     const handleRotateChange = e => {
 
         e.preventDefault();
@@ -20,13 +31,22 @@ function useBulkOperations(datasetNameValue) {
         setBulkRotate(e.target.value);
 
     }
-
+/**
+ * Represents handleResizeChange
+ * Deals with event changes spefically for Resize within MainDahsboard.jsx
+ * @param {event} e 
+ */
     const handleResizeChange = e => {
         e.preventDefault();
 
         setBulkResize(e.target.value);
     }
 
+    /**
+     * Represents handleRotateSubmit
+     * @param {event} e 
+     * Sends bulk rotate details to Node-Red as JSON object on web socket
+     */
     const handleRotateSubmit = e => {
         e.preventDefault();
 
@@ -36,7 +56,6 @@ function useBulkOperations(datasetNameValue) {
                 'type': 'rotate',
                 'datasetName': datasetNameValue
             };
-            console.log(vBulkRotate);
             outgoingSocket.send(JSON.stringify(vBulkRotate));
 
         }
@@ -50,18 +69,6 @@ function useBulkOperations(datasetNameValue) {
             <h1>Hello</h1>
 
         );
-
-        // if (outgoingSocket.readyState === 1){
-        //     var vBulkResize = {
-        //         'bulkResize':  theBulkResize,
-        //         'type': 'resize',
-        //         'datasetName': datasetNameValue
-
-        //     };
-        //     console.log(vBulkResize);
-        //     outgoingSocket.send(JSON.stringify(vBulkResize));
-
-        // }
     }
 
 

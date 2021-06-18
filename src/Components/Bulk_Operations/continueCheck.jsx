@@ -1,11 +1,21 @@
 import React from 'react';
 
-
 const outgoingSocket = new WebSocket('ws://127.0.0.1:1880/ws/bulkEdit');
+
+/**
+ * Representes ContinueCheckl
+ * @param {*} props 
+ * @returns button
+ */
 
 function ContinueCheck(props) {
 
 
+    /**
+     * Represents submissionResize
+     * Deals with the sending of resize details to Node-RED as JSOn on websocket
+     * Is called when props.resize passed from MainDashboard is true 
+     */
     function submissionResize(){        
 
         if (outgoingSocket.readyState === 1){
@@ -19,6 +29,12 @@ function ContinueCheck(props) {
 
         }
     }
+
+       /**
+     * Represents submissionRotate
+     * Deals with the sending of rotate details to Node-RED as JSOn on websocket
+     * Is called when props.resize passed from MainDashboard is false 
+     */
 
     function submissionRotate(){
 

@@ -12,14 +12,31 @@ import ImageMapper from "react-image-mapper";
 
 const outgoingSocket = new WebSocket('ws://127.0.0.1:1880/ws/editImage');
 
+/**
+ * Represents EditPage
+ * @param {*} props 
+ * @returns Image Mapper of image along with a form so that user can click coordinates and enter them into form along with label name to submit to Node-RED
+ */
+
 
 function EditPage(props) {
 
     var imageThumbnail = `data:image/jpeg;base64, ${props.thumbnailOfImage}`;
-    const { values, handleChange } = useEdit();
+
     const [x_coordinate, setX] = React.useState();
     const [y_coordinate, setY] = React.useState();
+    
+    
+    const { values, handleChange } = useEdit(); //React hook for edit
 
+
+    /**
+     * Represents onSubmit
+     * @param {event} e 
+     * Upon the input of type submit in the form returned by EditPage being clicked this event function is called.
+     * Here an array with all details required to be sent to Node-RED for annotating and labelling an image are instantiated. 
+     * Outgoing socket connection is checked for a posiotive ready state and if so it will send the array as a JSON object to Node-RED
+     */
     const onSubmit = e => {
         e.preventDefault();
         if (outgoingSocket.readyState === 1) {
@@ -37,6 +54,11 @@ function EditPage(props) {
             outgoingSocket.send(JSON.stringify(editImageDetails));
         }
     }
+    /**
+     * Represents clickedOutside
+     * @param {*} event 
+     * Value captures the coordinates from ImageMapper and sets them
+     */
 
     function clickedOutside(event) {
         const x_coordinate = event.nativeEvent.layerX;
@@ -161,80 +183,3 @@ function EditPage(props) {
 }
 
 export default EditPage;
-
-
-// {
-//     props.buttonPressed
-//         ? <div>
-//             <div className="grid justify-items-center">
-//             {/* <h1 className="lg:mt-3 text-2xl text-orange-bright font-medium whitespace-nowrap">{props.imageName}</h1> */}
-//             <ImageMapper
-
-//                 src={URL}
-//                 width={259}
-//                 height={194}
-//                 onImageClick={event => clickedOutside(event)}
-//                 lineWidth={4}
-//                 strokeColor={"white"}
-//             />
-//                 </div>
-
-//             {/* <h1>You clicked at X: {x_coordinate} and Y: {y_coordinate}</h1> */}
-//             {/* <img className="object-center w-52 h-52" src={'data:image/jpeg; base64,' + props.thumbnailOfImage} /> */}
-//             <div className="lg:mt-10" >
-//                 <form onSubmit={(event) => onSubmit(event)} onChange={(event) => handleChange(event)}>
-//                     {/**Coordinates Form */}
-//                     {/* <div className="grid grid-cols-3 gap-4">
-//                         <div>
-//                             <input
-//                                 name="x0"
-//                                 type="text"
-//                                 value={values.x0}
-//                                 onChange={handleChange}
-//                                 placeholder="x0"
-//                             />
-//                         </div>
-//                         <div>
-//                             <input
-//                                 name="y0"
-//                                 type="text"
-//                                 value={values.y0}
-//                                 onChange={handleChange}
-//                                 placeholder="y0"
-//                             />
-//                         </div>
-//                         <div>
-//                             <input
-//                                 type="text"
-//                                 name="x1"
-//                                 value={values.x1}
-//                                 onChange={handleChange}
-//                                 placeholder="x1"
-//                             />
-//                         </div>
-//                         <div>
-//                             <input
-//                                 type="text"
-//                                 name="y1"
-//                                 value={values.y1}
-//                                 onChange={handleChange}
-//                                 placeholder="y1"
-//                             />
-//                         </div>
-//                         <div>
-
-//                             />
-//                         </div>
-
-
-//                     </div> */}
-
-
-
-//                 </form>
-
-//             </div>
-
-//         </div>
-//         : <h1 className="lg:mt-20 text-2xl text-orange-bright font-medium ">No image has been seleted to edit</h1>
-// }

@@ -1,4 +1,9 @@
-
+/**
+ * Represents loginValidation 
+ * @param {array} values 
+ * Checks array param values to make sure they have values and if not then assign string message to foundErrors array whcih is returned.
+ * @returns foundErrors
+ */
 
 export default function loginValidation (values) {
 

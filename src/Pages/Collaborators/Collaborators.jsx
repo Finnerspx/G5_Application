@@ -2,6 +2,11 @@ import React from 'react'
 import { PhaseThreeData, PhaseTwoData } from '../../Components/Maintenance/PhaseContent'
 import Navbar from '../../Components/Navigation/Navbar'
 
+/**
+ * Represents Collaborators Page
+ * @returns JSX to display phases 2 and 3 for the user
+ */
+
 function Collaborators() {
     return (
         <div className="w-full h-screen">

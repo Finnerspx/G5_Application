@@ -4,11 +4,21 @@ import RegisterForm from '../../Components/Register/RegisterForm';
 import RegisterSuccess from '../../Components/Register/RegisterSuccess';
 import './Form.css'
 
+/**
+ * Represents Form
+ * @returns Component LoginForm and conditional return on RegisterForm/RegisterSuccess
+ */
 
 const Form = () => {
     const [successRegister, setSuccessRegister] = useState();
 
 
+    /**
+     * Represents succesfulRegisration
+     * @param {boolean} successfulRegisterValue 
+     * Passes function successfulRegister in as props to RegisterForm. 
+     * No return this function sets the boolean value for variable successRegister to determine is register was successful or not.
+     */
 
     function successfulRegister(successfulRegisterValue) {
         setSuccessRegister(successfulRegisterValue);

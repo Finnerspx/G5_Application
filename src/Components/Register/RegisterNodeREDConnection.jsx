@@ -17,18 +17,13 @@ incomingSocket.onerror = function (error) {
     console.log('Error detected: ' + error);
 };
 
-// const regSuccess = () => incomingSocket.onmessage = e => {
-//     if (e.data == "register success"){
-//         return true;
-//     }else {
-//         return false;
-//     }
-// }
+/**
+ * Allows string variables contianing address and port of sockets to be called from other functions
+ */
 
 const RegisterNodeREDConnection = {
     outgoingSocket: outgoingSocket,
     incomingSocket: incomingSocket,
-  //  successfulReg: regSuccess,
 };
 
 export default RegisterNodeREDConnection;

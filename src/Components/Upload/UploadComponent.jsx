@@ -1,5 +1,6 @@
 import React from 'react'
 import useUpload from './useUpload';
+import ValidateUpload from './ValidateUpload';
 
 
 
@@ -7,16 +8,28 @@ const outgoingSocket = new WebSocket('ws://127.0.0.1:1880/ws/uploadDataset');
 const incomingSocket = new WebSocket('ws://127.0.0.1:1880/ws/uploadDatasetResponse');
 const imageDatasetOutgoingSocket = new WebSocket('ws://127.0.0.1:1880/ws/datasetDetails');
 
+/**
+ * Represents UploadComponent
+ * @returns Form.
+ */
+
 function UploadComponent() {
 
 
-    const { handleFileChange, handleFileSubmit, values } = useUpload();
+    const { handleFileChange, values } = useUpload(ValidateUpload);
     const [totalFiles, setTotalFiles] = React.useState(0);
     var multipleFileName = [];
     var multipleFileBase64 = [];
     var imageFiles = [];
+    
+    const [errors, setErrors] = React.useState({});
 
-
+    /**
+     * Represents onChange
+     * @param {event} e 
+     * for loops through the event and sets new array files equal to the target index position of the event.
+     * Object of FileReader is instantiated and reads the result into base64 encoded string.
+     */
 
     const onChange = e => {
 
@@ -35,17 +48,29 @@ function UploadComponent() {
         var totalFiles = e.target.files.length;
         document.getElementById("numberOfFiles").innerHTML = totalFiles;
     }
+    /**
+     * Represents private function _handleReaderLoader
+     * @param {event} readEvent 
+     * Method is called on on load of the reader in onChange
+     * Creates a base64 encoded ASCII string from a string of binary data 
+     * btoa = binary to ASCII
+     */
 
     const _handleReaderLoader = readEvent => {
-        /**Creates a base64 encoded ASCII string from a string of binary data 
-         * btoa = binary to ASCII
-         */
+      
         let binaryString = readEvent.target.result;
         multipleFileBase64.push(btoa(binaryString));
     }
+    /**
+     * Represents onFileSubmit
+     * @param {event} e 
+     * sets the erross array equal tro whats returned within the ValidateUpload functon by calling the function and passing in the values from the form.
+     * Sends JSON object of image details to Node-RED on web socket
+     */
 
     const onFileSubmit = e => {
         e.preventDefault();
+        setErrors(ValidateUpload(values));
 
         if (outgoingSocket.readyState === 1) {
             for (var i = 0; i < multipleFileName.length; i++) {
@@ -59,6 +84,13 @@ function UploadComponent() {
             outgoingSocket.send(JSON.stringify(imageFiles));
         }
     }
+
+    /**
+     * Represents onMessage
+     * @param {event} event 
+     * The incoming web socket from Node-RED to React could recieve one of several messages based on how the upload was submitted, such as
+     * "upload successful" if the upload was successful this what Nopde-RED will send back to React and a message is then displayed as a window.alert
+     */
 
     incomingSocket.onmessage = event => {
         var json_object = JSON.parse(event.data)
@@ -92,6 +124,7 @@ function UploadComponent() {
                         <input className=" outline-none placeholder-black" type="text" name="datasetName" placeholder="Enter dataset name" value={values.datasetName} onChange={handleFileChange}></input>
                     </form>
                 </div>
+                {errors.datasetName && <p className="text-red-500">{errors.datasetName}</p>}
                 {/* //Break  */}
                 <form onSubmit={(e) => onFileSubmit(e)} onChange={(e) => onChange(e)}>
                     <div className="max-w-xl mt-10 mx-auto bg-white rounded-lg overflow-hidden md:max-w-lg">

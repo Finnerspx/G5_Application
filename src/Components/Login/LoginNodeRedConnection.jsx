@@ -23,7 +23,9 @@ incomingSocket.onmessage = event => {
     }
 }
 
-
+/**
+ * Allows string variables contianing address and port of sockets to be called from other functions
+ */
 const LoginNodeREDConnection = {
     outgoingSocket: outgoingSocket,
     incomingSocket: incomingSocket,
