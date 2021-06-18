@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import LoginNodeREDConnection from './LoginNodeRedConnection';
 
+const outgoingSocket = new WebSocket('ws://127.0.0.1:1880/ws/datasetDetails');
+
 const useLogin = (callback, validate) => {
 
 
@@ -38,6 +40,10 @@ const useLogin = (callback, validate) => {
             };
 
             LoginNodeREDConnection.outgoingSocket.send(JSON.stringify(sendDetails));
+        }
+
+        if (outgoingSocket.readyState === 1) {
+            outgoingSocket.send("datasetInformation");
         }
 
     }

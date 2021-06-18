@@ -6,7 +6,11 @@ import Logo from '../../Logo/Logo.png';
 import '../../Logo/logo.css';
 import {Link} from 'react-router-dom'
 
-function Navbar() {
+const Navbar = (props) => {
+
+  function getIsClicked(isClicked) {
+    props.getIsClicked(isClicked)
+  }
 
 
     return (
@@ -28,13 +32,12 @@ function Navbar() {
                 className={
                   "lg:flex flex-grow items-center lg:mr-10"
                 }
-                id="example-navbar-danger"
+               
               >
-                <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
+                <ul className="flex flex-col lg:flex-row list-none lg:ml-auto lg:mr-20">
                   <li className="nav-item">
                     <a
                       className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white"
-                      href="#pablo"
                     >
                      <Dropdown dropdownIcon={<MdHelpOutline className="h-5 w-5"/>} color={"red"} first={"Accessibility Information"} second={"Documentation"} third={"Additional Training"} fourth={"Sundance Website"}/>
                     </a>
@@ -49,9 +52,8 @@ function Navbar() {
                   <li className="nav-item">
                     <a
                       className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white"
-                      href="#pablo"
                     >
-                      <Dropdown dropdownIcon={<FaUserAlt className="h-5 w-5"/>} color={"green"} first={"Account Information"} second={"Logout"}/>
+                      <Dropdown getIsClicked={getIsClicked} dropdownIcon={<FaUserAlt className="h-5 w-5"/>} color={"green"} first={"Account Information"} second={"Logout"}/>
                     </a>
                   </li>
                 </ul>

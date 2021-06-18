@@ -4,9 +4,9 @@ import useRegister from './useRegister';
 import registerValidation from './RegisterValidation';
 import RegisterNodeREDConnection from './RegisterNodeREDConnection';
 
-const RegisterForm = ({ submitForm }) => {
+const RegisterForm = (props) => {
 
-    const {  handleSubmit, handleChange, values, errors } = useRegister(submitForm, registerValidation);
+    const {  handleSubmit, handleChange, values, errors } = useRegister(props, registerValidation);
   
 
     return (
@@ -23,7 +23,6 @@ const RegisterForm = ({ submitForm }) => {
                         value={values.firstName}
                         onChange={handleChange}
                     />
-                    {errors.firstName && <p>{errors.firstName}</p>}
                     <input
                         type="text"
                         className="form-input-l-name"
@@ -32,8 +31,9 @@ const RegisterForm = ({ submitForm }) => {
                         value={values.lastName}
                         onChange={handleChange}
                     />
-                    {errors.lastName && <p>{errors.lastName}</p>}
                 </row>
+                {errors.firstName && <p>{errors.firstName}</p>}
+                {errors.lastName && <p>{errors.lastName}</p>}
                 <div className="form-inputs">
                     <input
                         type="email"

@@ -11,6 +11,8 @@ const Dropdown = (props) => {
     const btnDropRef = React.createRef();
     const popoverDropRef = React.createRef();
 
+    const [isClicked, setIsClicked] = React.useState(false);
+
     const openDropdownPopover = () => {
         createPopper(btnDropRef.current, popoverDropRef.current, {
             placement: "bottom-start"
@@ -21,6 +23,15 @@ const Dropdown = (props) => {
 
     const closeDropdown = () => {
         setShowDropdown(false);
+    }
+
+    const handleClickSecond = () => {
+      if (isClicked === true) {
+        setIsClicked(false);
+      } else {
+        setIsClicked(true);
+      }
+      props.getIsClicked(isClicked);
     }
 
     let bgColor;
@@ -71,7 +82,7 @@ const Dropdown = (props) => {
                     "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent " +
                     (props.color === "white" ? " text-blueGray-700" : "text-white")
                   }
-                  onClick={e => e.preventDefault()}
+                  onClick={handleClickSecond}
                 >
                {props.second}
                 </a>

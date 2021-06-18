@@ -6,16 +6,12 @@ import './Form.css'
 
 
 const Form = () => {
-    const [isSubmitted, setIsSubmitted] = useState(false);
-    const [isSubmittedLogin, setIsSubmittedLogin] = useState(false);
+    const [successRegister, setSuccessRegister] = useState();
 
 
-    function submitForm(){
-        setIsSubmitted(true);
-    }
 
-    function submitLogin() {
-        setIsSubmittedLogin(true);
+    function successfulRegister(successfulRegisterValue) {
+        setSuccessRegister(successfulRegisterValue);
     }
 
 
@@ -25,7 +21,7 @@ const Form = () => {
             <div className="form-content-left">
                 <LoginForm/>
             </div>
-            {!isSubmitted ? (<RegisterForm submitForm={submitForm}/>) 
+            {!successRegister ? (<RegisterForm successfulRegister={successfulRegister}/>) 
             : (<RegisterSuccess/>) }
         </div>
            

@@ -13,11 +13,11 @@ const incomingSocket = new WebSocket('ws://127.0.0.1:1880/ws/datasetDetailsRespo
 const imageOutgoingSocket = new WebSocket('ws://127.0.0.1:1880/ws/imageDetails');
 
 
-incomingSocket.onopen = function (event) {
-    if (outgoingSocket.readyState === 1) {
-        outgoingSocket.send("datasetInformation");
-    }
-}
+// incomingSocket.onopen = function (event) {
+//     if (outgoingSocket.readyState === 1) {
+//         outgoingSocket.send("datasetInformation");
+//     }
+// }
 
 
 const Dataset = (props) => {
@@ -33,15 +33,8 @@ const Dataset = (props) => {
     }
 
     incomingSocket.onmessage = event => {
-        if (event.data == "finished") {
-            setDatasetNames(datasetNames);
-        } else {
-            jsonObject = JSON.parse(event.data);
-            datasetNames.push({
-                title: jsonObject.datasetName,
-                thumbnail: jsonObject.base64,
-            });
-        }
+        datasetNames = JSON.parse(event.data);
+        setDatasetNames(datasetNames);
     }
 
     const breakPoints = [
@@ -55,14 +48,14 @@ const Dataset = (props) => {
             {datasetNames.map((datasets, index) => (
                 <div key={index} className="lg:p-3 justify-items-start">
                     <div className="lg:w-80 lg:h-52 rounded overflow-hidden lg:shadow-lg">
-                        <img className="rounded w-full h-40 object-cover" src={'data:image/jpeg; base64,' + datasets.thumbnail} />
+                        <img className="rounded w-full h-40 object-cover" src={'data:image/jpeg; base64,' + datasetNames[index].base64} />
                         <div>
                             <div className="flex flex-row items-center lg:pt-2">
                                 <div className="font-semibold text-lg text-black overflow-ellipsis truncate lg:justify-items-start lg:ml-3 lg:w-24">
-                                    {datasets.title}
+                                    {datasetNames[index].datasetName}
                                 </div>
                                 <div className="ml-20">
-                                    <button className="lg:px-3 lg:py-1 bg-sundance-blue rounded font-medium text-white hover:bg-orange-bright" onClick={() => handleClick(datasets.title)}>Select</button>
+                                    <button className="lg:px-3 lg:py-1 bg-sundance-blue rounded font-medium text-white hover:bg-orange-bright" onClick={() => handleClick(datasetNames[index].datasetName)}>Select</button>
                                 </div>
                             </div>
                         </div>

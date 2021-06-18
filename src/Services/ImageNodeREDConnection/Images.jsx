@@ -47,7 +47,7 @@ const Images = (props) => {
                 {imageNames.map((images, index) => (
                     <div key={index} className="lg:p-3 justify-items-start">
                         <div className="lg:w-56 lg:h-56 rounded overflow-hidden lg:shadow-lg">
-                            <img className="w-full lg:h-44 object-cover" src={'data:image/jpeg; base64,' + imageNames[index].base64} />
+                            <img className="w-full lg:h-44 object-none" src={'data:image/jpeg; base64,' + imageNames[index].base64} />
                             <div>
                                 <div className="flex flex-row items-center">
                                     <div className="lg:mt-2 lg:ml-3 font-semibold text-sm text-orange-bright overflow-ellipsis truncate w-30">

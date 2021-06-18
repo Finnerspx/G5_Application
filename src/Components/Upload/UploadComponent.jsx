@@ -5,6 +5,7 @@ import useUpload from './useUpload';
 
 const outgoingSocket = new WebSocket('ws://127.0.0.1:1880/ws/uploadDataset');
 const incomingSocket = new WebSocket('ws://127.0.0.1:1880/ws/uploadDatasetResponse');
+const imageDatasetOutgoingSocket = new WebSocket('ws://127.0.0.1:1880/ws/datasetDetails');
 
 function UploadComponent() {
 
@@ -63,15 +64,18 @@ function UploadComponent() {
         var json_object = JSON.parse(event.data)
 
         if (json_object.trigger === "upload successful") {
-            window.alert(json_object.amount + " files were uploaded successfully.");
+            alert(json_object.amount + " files were uploaded successfully.");
+            if (imageDatasetOutgoingSocket.readyState === 1) {
+                imageDatasetOutgoingSocket.send("datasetInformation");
+            }
         } else if (json_object.trigger === "upload unsuccessful") {
-            window.alert("There was an error uploading " + json_object.amount + " files. Please try again later. If the problem persists contact technical support.");
+            alert("There was an error uploading " + json_object.amount + " files. Please try again later. If the problem persists contact technical support.");
         } else if (json_object.trigger === "file already exists") {
-            window.alert(json_object.amount + " files with the same filename already exist. Please change the offending filenames and try again.");
+            alert(json_object.amount + " files with the same filename already exist. Please change the offending filenames and try again.");
         } else if (json_object.trigger === "files too large") {
-            window.alert("The " + json_object.amount + "Mb total file size you attemtped to upload exceeds the 250Mb upload limit. Please reduce the total file size and try again.");
+            alert("The " + json_object.amount + "Mb total file size you attemtped to upload exceeds the 250Mb upload limit. Please reduce the total file size and try again.");
         } else {
-            window.alert("Error");
+            alert("Error");
         }
     }
 

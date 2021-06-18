@@ -35,6 +35,7 @@ const MainDashboard = (props) => {
     const [buttonClicked, setButtonClicked] = React.useState();
     const [datasetNameValue, setDatasetNameValue] = React.useState();
     const [downloadImages, setFilesToDownload] = React.useState();
+    const [isClicked, setIsClicked] = React.useState();
 
     const datasetBreakpoints = [
         {
@@ -57,6 +58,10 @@ const MainDashboard = (props) => {
             thumbnail: imageThumbnail
         })
         setFilesToDownload(filesToDownload);
+    }
+
+    function getIsClicked(isClicked) {
+        props.getLoggedOut(isClicked)
     }
 
     function handleImageEditData(nameOfImage, thumbnailOfImage, editButtonPressedValue, imageWidth, imageHeight) {
@@ -88,7 +93,7 @@ const MainDashboard = (props) => {
 
         <div className="grid-container">
             <div className="item1">
-                <Navbar />
+                <Navbar getIsClicked={getIsClicked}/>
             </div>
             <div className="item2">
                 <Sidebar

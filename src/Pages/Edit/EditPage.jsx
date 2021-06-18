@@ -69,18 +69,20 @@ function EditPage(props) {
                     {
                         props.buttonPressed
                             ? <div>
-                                <div className="lg:mt-10 lg:mr-32 shadow-xl lg:px-40 lg:py-10 cursor-crosshair">
+                                <div className="lg:mt-5 lg:mr-32 shadow-xl lg:px-40 lg:py-10">
+                                    <div className="flex justify-center cursor-crosshair">
                                     <ImageMapper
                                         src={imageThumbnail}
-                                        width={props.imageWidth}
-                                        height={props.imageHeight}
+                                        width={props.imageWidth/2}
+                                        height={props.imageHeight/2}
                                         onImageClick={event => clickedOutside(event)}
                                     />
+                                    </div>
                                     <h2 className="text-1xl font-semibold">Selected Coordinates</h2>
                                     <p className="text-lg font-medium">X: <a className="text-sundance-blue">{x_coordinate}</a> & Y: <a className="text-orange-bright">{y_coordinate}</a></p>
                                 </div>
 
-                                <div className="lg:mt-16">
+                                <div className="lg:mt-5">
                                     <form onSubmit={(event) => onSubmit(event)} onChange={(event) => handleChange(event)}>
                                         <div className="grid grid-cols-2 gap-4 lg:mr-32">
                                             <div className="col-span-2">

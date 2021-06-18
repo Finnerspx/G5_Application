@@ -34,16 +34,19 @@ function App() {
     setImageHeight(imageHeight);
   }
 
+  function getLoggedOut(isClicked) {
+    setIsLoggedIn(isClicked);
+  }
 
 
   return (
     <>
 
       <Router>
-        {/* {!isLoggedIn ? (<Form/>)
-      :  <Route path="/" exact component={()=> <MainDashboard  getImageData={getImageData}/>} />} */}
+        {!isLoggedIn ? (<Form/>)
+      :  <Route path="/" exact component={()=> <MainDashboard getLoggedOut={getLoggedOut} getImageData={getImageData}/>} />}
         <Switch>
-          <Route path="/" exact component={()=> <MainDashboard  getImageData={getImageData}/>} />
+          {/* <Route path="/" exact component={()=> <MainDashboard  getImageData={getImageData}/>} /> */}
           <Route path='/upload' component={UploadPage} />
           <Route path="/collaborators" component={Collaborators}/>
           <Route path="/editPage" component={()=> <EditPage datasetName={datasetName} buttonPressed={editButtonPressed} imageName={imageName} thumbnailOfImage={imageThumbnail} imageWidth={imageWidth} imageHeight={imageHeight}/>}/>

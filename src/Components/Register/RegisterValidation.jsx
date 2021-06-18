@@ -1,34 +1,28 @@
-const outgoingSocket = new WebSocket('ws://127.0.0.1:1880/ws/registerAccount');
-const incomingSocket = new WebSocket('ws://127.0.0.1:1880/ws/registerAccountResponse');
 
-incomingSocket.onopen = function (event) {
-    console.log("Client connected");
-};
 
-incomingSocket.onclose = function () {
-    console.log('Connection closed');
-};
+export default function RegisterValidation (values) {
 
-incomingSocket.onerror = function (error) {
-    console.log('Connection closed');
-};
 
-incomingSocket.onerror = function (error) {
-    console.log('Error detected: ' + error);
-};
+    let foundErrors = {};
 
-// const regSuccess = () => incomingSocket.onmessage = e => {
-//     if (e.data == "register success"){
-//         return true;
-//     }else {
-//         return false;
-//     }
-// }
+    if (!values.firstName.trim()) {
+        foundErrors.firstName = "First name Requried";
+    }
 
-const RegisterNodeREDConnection = {
-    outgoingSocket: outgoingSocket,
-    incomingSocket: incomingSocket,
-  //  successfulReg: regSuccess,
-};
+    if (!values.lastName.trim()) {
+        foundErrors.lastName = "Last name Requried";
+    }
 
-export default RegisterNodeREDConnection;
+    if (!/\S+@\S+\.\S+/.test(values.email)){
+        foundErrors.email = "Email address is invalid";
+    }
+
+    if (!values.password) {
+        foundErrors.password = "Password Required";
+    } else if (values.password.length < 7){
+        foundErrors.password = "Password needs to be at least 7 characters";
+    }
+
+    return foundErrors;
+
+}
